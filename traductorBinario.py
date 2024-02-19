@@ -50,6 +50,38 @@ MipsRHexa = {
     "100011": "23"
 }
 
+tipos = {
+    "add": "R",
+    "addi": "I",
+    "addiu": "I",
+    "addu": "R",
+    "and": "R",
+    "andi": "I",
+    "beq": "I",
+    "bne": "I",
+    "j": "J",
+    "jal": "J",
+    "jr": "R",
+    "lbu": "I",
+    "lhu": "I",
+    "ll": "I",
+    "lui": "I",
+    "lw": "I",
+    "nor": "R",
+    "or": "R",
+    "ori": "I",
+    "slt": "R",
+    "sltiu": "I",
+    "sltu": "R",
+    "sll": "R",
+    "srl": "R",
+    "sb": "I",
+    "sc": "I",
+    "sh": "I",
+    "sw": "I",
+    "sub": "R",
+    "subu": "R",
+}
 registros = {
     "$zero": "00000",
     "$at": "00001",
@@ -84,7 +116,6 @@ registros = {
     "$fp": "11110",
     "$ra": "11111",
     "addi": "001000",
-    "add": "100000",
     "lw": "100011",
     "sw": "101011",
     "sub": "100010",
@@ -121,6 +152,7 @@ registros = {
     "nor": "100111",
     "divu": "011011"
 }
+
 
 binregistro= {
     "00000": "$zero",
@@ -186,6 +218,33 @@ binregistro= {
     "000010": "srl",
     "101000": "sb",
     "111000": "sc"}
+
+
+
+def traduceMips (lista,tipos,registros, hexatobin):
+    ans = ""
+    opcode = ""
+    rs = ""
+    rt = ""
+    rd = ""
+    shamt = ""
+    funct = ""
+    immediate = ""
+    address = ""
+    tipo = ""
+
+    for i in range(len(lista)):
+        if lista[0] in tipos:
+            tipo = tipos[lista[0]]
+        else:
+            print("Tipo no encontrado")
+        
+        if tipo == "R":
+            opcode = "000000"
+        else:
+            opcode = registros[lista[0]]
+            
+
 
 
 
