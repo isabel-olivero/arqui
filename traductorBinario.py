@@ -1,20 +1,20 @@
 hexatobin = {
-    '0': "0000",
-    '1': "0001",
-    '2': "0010",
-    '3': "0011",
-    '4': "0100",
-    '5': "0101",
-    '6': "0110",
-    '7': "0111",
-    '8': "1000",
-    '9': "1001",
-    'A': "1010",
-    'B': "1011",
-    'C': "1100",
-    'D': "1101",
-    'E': "1110",
-    'F': "1111"
+    '0': "00000",
+    '1': "00001",
+    '2': "00010",
+    '3': "00011",
+    '4': "00100",
+    '5': "00101",
+    '6': "00110",
+    '7': "00111",
+    '8': "01000",
+    '9': "01001",
+    'A': "01010",
+    'B': "01011",
+    'C': "01100",
+    'D': "01101",
+    'E': "01110",
+    'F': "01111"
 }
 
 bintohexa = {
@@ -37,17 +37,17 @@ bintohexa = {
 }
 
 MipsRHexa = {
-    "100000": "20",
-    "100001": "21",
-    "100100": "24",
-    "001000": "08",
-    "100101": "25",
-    "101010": "2a",
-    "101011": "2b",
-    "000000": "00",
-    "000010": "02",
-    "100010": "22",
-    "100011": "23"
+   "20": "100000",
+   "21":"100001",
+   "24":"100100",
+   "08":"001000",
+    "25":"100101",
+    "2a":"101010",
+    "2b":"101011",
+    "00":"000000",
+    "02":"000010",
+    "22":"100010",
+    "23":"100011"
 }
 
 tipos = {
@@ -152,7 +152,13 @@ registros = {
     "nor": "100111",
     "divu": "011011"
 }
-
+rfunc ={
+    "add":"20","addu":"21",
+      "and":"24", "jr":"08",
+      "nor":"27", "or":"25", 
+      "slt":"2a","sltu":"2b",
+      "sll":"00","srl":"02", 
+      "sub":"22","subu":"23" }
 
 binregistro= {
     "00000": "$zero",
@@ -221,8 +227,9 @@ binregistro= {
 
 
 
-def traduceMips (lista,tipos,registros, hexatobin):
+def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa):
     ans = ""
+    flag = False
     opcode = ""
     rs = ""
     rt = ""
@@ -232,8 +239,13 @@ def traduceMips (lista,tipos,registros, hexatobin):
     immediate = ""
     address = ""
     tipo = ""
+    modelo1 =[opcode, rs, rt, rd, shamt, funct]
+    modelo2 =[opcode, rs, rt, immediate]
+    modelo3 =[opcode, address]
+    modelo = []
 
-    for i in range(len(lista)):
+    while flag == False:
+    #se hace la traduccion del opcode segun el tipo
         if lista[0] in tipos:
             tipo = tipos[lista[0]]
         else:
@@ -243,7 +255,43 @@ def traduceMips (lista,tipos,registros, hexatobin):
             opcode = "000000"
         else:
             opcode = registros[lista[0]]
+    #finaliza traduccion de opcode
+        
+        if tipo == "R":
+            modelo = modelo1
+            rd = registros[lista[1]]
+            rs = registros[lista[2]]
+            rt = registros[lista[3]]
+            funct = MipsRHexa[lista[0]]
+
+            if lista[0] == "sll":
+                shamt = hexatobin[lista[4]]
             
+            elif lista[0] == "srl":
+                shamt = hexatobin[lista[4]]
+            else:
+                shamt = "00000"
+            
+
+        elif tipo == "I":
+            modelo = modelo2
+            rs = registros[lista[1]]
+            rt = registros[lista[2]]
+            immediate = "00000000000" + hexatobin[lista[3]]
+
+        elif tipo == "J":
+            modelo = modelo3
+        
+
+
+            
+
+           
+
+        
+
+
+
 
 
 
