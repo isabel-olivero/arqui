@@ -282,17 +282,20 @@ def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa):
         elif tipo == "J":
             modelo = modelo3
         
+def swTrasnslater (lista,tipos,registros, hexatobin, MipsRHexa):
+        if lista[0]== swCadena:
+            opcode = registros[lista[0]] 
+            rt = registros[lista[1]]
+            immediate=hexatobin[lista[2][1]]
+            temp=lista[2][2]+lista[2][3]+lista[2][4]
+            rs = registros[temp]
 
-
-            
-
-           
-
-        
-
-
-
-
-
+def lwTrasnslater (lista,tipos,registros, hexatobin, MipsRHexa):
+        if lista[0]== lwCadena:
+            opcode = registros[lista[0]] 
+            rt = registros[lista[1]]
+            immediate=hexatobin[lista[2][1]]
+            temp=lista[2][2]+lista[2][3]+lista[2][4]
+            rs = registros[temp]
 
 
