@@ -17,24 +17,7 @@ hexatobin = {
     'F': "01111"
 }
 
-bintohexa = {
-    "0000": '0',
-    "0001": '1',
-    "0010": '2',
-    "0011": '3',
-    "0100": '4',
-    "0101": '5',
-    "0110": '6',
-    "0111": '7',
-    "1000": '8',
-    "1001": '9',
-    "1010": 'A',
-    "1011": 'B',
-    "1100": 'C',
-    "1101": 'D',
-    "1110": 'E',
-    "1111": 'F'
-}
+
 
 MipsRHexa = {
    "20": "100000",
@@ -160,74 +143,11 @@ rfunc ={
       "sll":"00","srl":"02", 
       "sub":"22","subu":"23" }
 
-binregistro= {
-    "00000": "$zero",
-    "00001": "$at",
-    "00010": "$v0",
-    "00011": "$v1",
-    "00100": "$a0",
-    "00101": "$a1",
-    "00110": "$a2",
-    "00111": "$a3",
-    "01000": "$t0",
-    "01001": "$t1",
-    "01010": "$t2",
-    "01011": "$t3",
-    "01100": "$t4",
-    "01101": "$t5",
-    "01110": "$t6",
-    "01111": "$t7",
-    "10000": "$s0",
-    "10001": "$s1",
-    "10010": "$s2",
-    "10011": "$s3",
-    "10100": "$s4",
-    "10101": "$s5",
-    "10110": "$s6",
-    "10111": "$s7",
-    "11000": "$t8",
-    "11001": "$t9",
-    "11010": "$k0",
-    "11011": "$k1",
-    "11100": "$gp",
-    "11101": "$sp",
-    "11110": "$fp",
-    "11111": "$ra",
-    "001000": "addi",
-    "100000": "add",
-    "100011": "lw",
-    "101011": "sw",
-    "100010": "sub",
-    "011000": "mult",
-    "011001": "multu",
-    "010000": "mfhi",
-    "010010": "mflo",
-    "011010": "div",
-    "001111": "lui",
-    "001101": "ori",
-    "000100": "beq",
-    "000101": "bne",
-    "000010": "j",
-    "000011": "jal",
-    "001000": "jr",
-    "101010": "slt",
-    "001100": "addiu",
-    "100001": "addu",
-    "001100": "andi",
-    "100100": "lbu",
-    "100101": "lhu",
-    "110000": "ll",
-    "001010": "slti",
-    "001011": "sltiu",
-    "101011": "sltu",
-    "000000": "sll",
-    "000010": "srl",
-    "101000": "sb",
-    "111000": "sc"}
+    
 
 
 
-def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa):
+def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa,rfunc):
     ans = ""
     flag = False
     opcode = ""
@@ -239,63 +159,68 @@ def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa):
     immediate = ""
     address = ""
     tipo = ""
-    modelo1 =[opcode, rs, rt, rd, shamt, funct]
-    modelo2 =[opcode, rs, rt, immediate]
-    modelo3 =[opcode, address]
-    modelo = []
 
-    while flag == False:
+    
     #se hace la traduccion del opcode segun el tipo
-        if lista[0] in tipos:
-            tipo = tipos[lista[0]]
-        else:
-            print("Tipo no encontrado")
-        
-        if tipo == "R":
-            opcode = "000000"
-        else:
-            opcode = registros[lista[0]]
+    if lista[0] in tipos:
+        tipo = tipos[lista[0]]
+    else:
+        print("Tipo no encontrado")
+    
+    if tipo == "R":
+        opcode = "000000"
+    else:
+        opcode = registros[lista[0]]
+
     #finaliza traduccion de opcode
         
-        if tipo == "R":
-            modelo = modelo1
-            rd = registros[lista[1]]
-            rs = registros[lista[2]]
+    if tipo == "R":
+        rd = registros[lista[1]]
+        rs = registros[lista[2]]
+        if lista[3] in registros:
             rt = registros[lista[3]]
-            funct = MipsRHexa[lista[0]]
-
-            if lista[0] == "sll":
-                shamt = hexatobin[lista[4]]
-            
-            elif lista[0] == "srl":
-                shamt = hexatobin[lista[4]]
-            else:
-                shamt = "00000"
-            
-
-        elif tipo == "I":
-            modelo = modelo2
-            rs = registros[lista[1]]
+        else:
             rt = registros[lista[2]]
-            immediate = "00000000000" + hexatobin[lista[3]]
+            rs= "00000"
 
-        elif tipo == "J":
-            modelo = modelo3
+        f = rfunc[lista[0]]
+        funct = MipsRHexa[f]
+
+
+        if lista[0] == "sll":
+            shamt = hexatobin[lista[3]]
         
-def swTrasnslater (lista,tipos,registros, hexatobin, MipsRHexa):
-        if lista[0]== swCadena:
-            opcode = registros[lista[0]] 
-            rt = registros[lista[1]]
-            immediate=hexatobin[lista[2][1]]
-            temp=lista[2][2]+lista[2][3]+lista[2][4]
-            rs = registros[temp]
+        elif lista[0] == "srl":
+            shamt = hexatobin[lista[4]]
+        else:
+            shamt = "00000"
+        ans = opcode +" "+ rs +" " + rt +" " + rd +" "+ shamt +" "+ funct
+        
 
-def lwTrasnslater (lista,tipos,registros, hexatobin, MipsRHexa):
-        if lista[0]== lwCadena:
-            opcode = registros[lista[0]] 
-            rt = registros[lista[1]]
-            immediate=hexatobin[lista[2][1]]
-            temp=lista[2][2]+lista[2][3]+lista[2][4]
-            rs = registros[temp]
+    elif tipo == "I":
+        rs = registros[lista[1]]
+        rt = registros[lista[2]]
+        immediate = "00000000000" + hexatobin[lista[3]]
+        ans = opcode +" "+ rs +" " + rt +" " + immediate
+
+    elif tipo == "J":
+        "pendiente"
+
+    
+    return ans
+        
+a = traduceMips (["addi","$s1","$s1","2"],tipos,registros, hexatobin, MipsRHexa)
+print(a)
+
+            
+
+           
+
+        
+
+
+
+
+
 
 
