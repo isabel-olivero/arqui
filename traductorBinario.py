@@ -19,6 +19,7 @@ hexatobin = {
 
 
 
+
 MipsRHexa = {
    "20": "100000",
    "21":"100001",
@@ -200,7 +201,7 @@ def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa,rfunc):
     elif tipo == "I":
         rs = registros[lista[1]]
         rt = registros[lista[2]]
-        immediate = "00000000000" + hexatobin[lista[3]]
+        immediate = bin(lista[3])#"00000000000" + hexatobin[lista[3]]
         ans = opcode +" "+ rs +" " + rt +" " + immediate
 
     elif tipo == "J":
@@ -212,7 +213,12 @@ def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa,rfunc):
 a = traduceMips (["addi","$s1","$s1","2"],tipos,registros, hexatobin, MipsRHexa)
 print(a)
 
-            
+
+def operahexa(hexa, hexb):
+    n1=int (hexa,16)
+    n2=int(hexb,16)
+    ans= hex(n1+n2)
+    return ans        
 
            
 
