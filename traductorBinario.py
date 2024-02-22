@@ -210,8 +210,8 @@ def traduceMips (lista,tipos,registros, hexatobin, MipsRHexa,rfunc):
     
     return ans
         
-a = traduceMips (["addi","$s1","$s1","2"],tipos,registros, hexatobin, MipsRHexa)
-print(a)
+#a = traduceMips (["addi","$s1","$s1","2"],tipos,registros, hexatobin, MipsRHexa)
+#print(a)
 
 
 def operahexa(hexa, hexb):
@@ -221,23 +221,44 @@ def operahexa(hexa, hexb):
     return ans
 
 def transformaist(cadi):
-    ignor={"(",")", ","}
+    ignor={"(",")", ","," "}
+    aux = ""
     for i in range(len(cadi)):
         if cadi[i] in ignor:
-            cadi[i]= " "
-    cadimod = cadi.split(" ")
+            a= "_"
+        else:
+            a=cadi[i]
+        aux += a
+   
+    cadimod = aux.split("_")
+    
 
     return cadimod
 
-"""
-    ans.append(cadimod[0])
 
-    if tipos[ans[0]] == "I":
-        if (tipos[ans[0]] == "lw") or (tipos[ans[0]] =="sw"):
-            rt = cadimod[1]
-            immediate = cadimod[2]
-            rs = cadimod[3]
-"""     
+    
+def funtipoi(funlista,registros):
+    ans=""
+    if tipos[funlista[0]] == "I":
+        opcode = registros[funlista[0]]
+        if (funlista[0] == 'lw') or (funlista[0] =="sw"):
+            rt =registros[ funlista[1]]
+            auxin = int(funlista[2])
+            auxstr= bin(auxin) 
+            immediate= str(auxstr)
+            rs =registros[ funlista[3]]
+        else:
+            rt=registros[ funlista[1]]
+            rs =registros[ funlista[2]]
+            auxin = int(funlista[3])
+            auxstr= bin(auxin)
+            immediate= str(auxstr)
+    ans= opcode+" "+rs+" "+rt+" "+immediate
+    return ans
+c=transformaist("lw $t0,100($t1)")
+b= funtipoi(c,registros)
+print(b)
+     
 
 
 
