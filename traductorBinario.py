@@ -247,13 +247,19 @@ def funtipoi(funlista,registros):
             auxstr= bin(auxin) 
             immediate= str(auxstr)
             rs =registros[ funlista[3]]
+            ans= opcode+" "+rs+" "+rt+" "+immediate
+        elif ((funlista[0]=="beq" )or(funlista[0]=="bne")):
+            rs =registros[ funlista[1]]
+            rt =registros[ funlista[2]]
+            etiqueta = funcion que calcula etiqueta(funlista[3])
+
         else:
             rt=registros[ funlista[1]]
             rs =registros[ funlista[2]]
             auxin = int(funlista[3])
             auxstr= bin(auxin)
             immediate= str(auxstr)
-    ans= opcode+" "+rs+" "+rt+" "+immediate
+            ans= opcode+" "+rs+" "+rt+" "+immediate
     return ans
 c=transformaist("lw $t0,100($t1)")
 b= funtipoi(c,registros)
