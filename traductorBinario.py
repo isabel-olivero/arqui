@@ -218,7 +218,30 @@ def operahexa(hexa, hexb):
     n1=int (hexa,16)
     n2=int(hexb,16)
     ans= hex(n1+n2)
-    return ans        
+    return ans
+
+def transformaist(cadi):
+    ignor={"(",")", ","}
+    for i in range(len(cadi)):
+        if cadi[i] in ignor:
+            cadi[i]= " "
+    cadimod = cadi.split(" ")
+
+    return cadimod
+
+"""
+    ans.append(cadimod[0])
+
+    if tipos[ans[0]] == "I":
+        if (tipos[ans[0]] == "lw") or (tipos[ans[0]] =="sw"):
+            rt = cadimod[1]
+            immediate = cadimod[2]
+            rs = cadimod[3]
+"""     
+
+
+
+        
 
            
 
